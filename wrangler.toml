@@ -1,0 +1,6 @@
+name = "pepemedic-saas-pwa"
+compatibility_date = "2025-01-01"
+pages_build_output_dir = "dist"
+
+[vars]
+VITE_APP_NAME = "PEPEMEDIC SaaS"

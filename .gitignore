@@ -1,0 +1,20 @@
+# Dependencies
+node_modules/
+railway-backend/node_modules/
+
+# Build outputs
+dist/
+railway-backend/dist/
+*.tsbuildinfo
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+railway-backend/.env
+
+# OS & Editor files
+.DS_Store
+.vscode/
+.idea/
+*.log
