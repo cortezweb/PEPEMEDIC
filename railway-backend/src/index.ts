@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+import fs from 'fs';
 import {
   sendWhatsAppMessage,
   getRecentWhatsAppLogs,
@@ -76,9 +78,21 @@ app.post('/api/payments/checkout', (req, res) => {
   return res.json({ ok: true, session });
 });
 
+// 6. Servir Frontend PWA compilado (cuando se despliega desde la raíz en Railway)
+const frontendDistPath = path.resolve(__dirname, '../../dist');
+if (fs.existsSync(frontendDistPath)) {
+  app.use(express.static(frontendDistPath));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api') || req.path === '/health') {
+      return next();
+    }
+    res.sendFile(path.join(frontendDistPath, 'index.html'));
+  });
+}
+
 // Iniciar Cron Worker persistente en Railway
 startReminderCron();
 
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 [Railway Backend] Servidor escuchando en http://0.0.0.0:${PORT}`);
+  console.log(`🚀 [Railway Backend + PWA] Servidor escuchando en http://0.0.0.0:${PORT}`);
 });

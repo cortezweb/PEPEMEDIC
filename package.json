@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && npm --prefix railway-backend install && npm --prefix railway-backend run build",
+    "start": "node railway-backend/dist/index.js",
     "preview": "vite preview"
   },
   "dependencies": {

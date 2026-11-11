@@ -1,5 +1,19 @@
-export const RAILWAY_API_URL =
-  import.meta.env.VITE_RAILWAY_API_URL || 'http://localhost:4000';
+function resolveRailwayApiUrl(): string {
+  const raw = (import.meta.env.VITE_RAILWAY_API_URL || '').trim();
+  if (!raw) {
+    if (
+      typeof window !== 'undefined' &&
+      window.location.hostname.includes('railway.app')
+    ) {
+      return window.location.origin;
+    }
+    return 'http://localhost:4000';
+  }
+  const withProtocol = /^https?:\/\//i.test(raw) ? raw : `https://${raw}`;
+  return withProtocol.replace(/\/+$/, '');
+}
+
+export const RAILWAY_API_URL = resolveRailwayApiUrl();
 
 export interface RailwayHealthResponse {
   ok: boolean;
